@@ -1,4 +1,5 @@
 using ThuQuanServer.ApplicationContext;
+using ThuQuanServer.Dtos.Request;
 using ThuQuanServer.Interfaces;
 using ThuQuanServer.Models;
 
@@ -16,7 +17,40 @@ public class TaiKhoanRepository : ITaiKhoanRepository
     public ICollection<TaiKhoan> GetTaiKhoan()
     {
         string query = "SELECT * FROM TaiKhoan";
-        var taikhoan = _dbContext.GetData<TaiKhoan>(query);
-        return taikhoan;
+        var taiKhoan = _dbContext.GetData<TaiKhoan>(query);
+        return taiKhoan;
+    }
+
+    public ICollection<TaiKhoan> GetTaiKhoanByProps(object? values)
+    {
+        var p = values.GetType().GetProperties();
+        
+        var query = "SELECT * FROM TaiKhoan WHERE ";
+        if (p.Length == 1)
+        {
+            query += string.Join("", p.Select(p => p.Name)) + "=?";
+        }
+        else
+        {
+            query += string.Join("=? AND ", p.Select(p => p.Name)) + "=?";
+        }
+        Console.WriteLine(query);
+        
+        var props = p.Select(p => p.GetValue(values)).ToArray();
+
+        var nhanvien = _dbContext.GetData<TaiKhoan>(query, props);
+        return nhanvien;
+    }
+    
+    public bool InsertTaiKhoan(TaiKhoanRequestDto taikhoan)
+    {
+        _dbContext.Add(taikhoan);
+        return _dbContext.SaveChange();
+    }
+
+    public bool UpdateTaiKhoan(TaiKhoanRequestDto taikhoan, int id)
+    {
+        _dbContext.Update(taikhoan, id);
+        return _dbContext.SaveChange();
     }
 }

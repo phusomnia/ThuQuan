@@ -1,15 +1,18 @@
 using Scalar.AspNetCore;
 using ThuQuanServer.ApplicationContext;
 using ThuQuanServer.Endpoints;
+using ThuQuanServer.Extension;
 using ThuQuanServer.Interfaces;
 using ThuQuanServer.Models;
 using ThuQuanServer.Repository;
+using ThuQuanServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add db access
 builder.Services.AddSingleton<DbContext>();
 builder.Services.AddSingleton<ITaiKhoanRepository , TaiKhoanRepository>();
+builder.Services.AddSingleton<IPasswordHashService , PasswordHashService>();
 
 builder.Services.AddAuthorization();
 
@@ -31,8 +34,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseValidationMiddleware();
 
 // Endpoints
 app.MapTaiKhoanEndpoints();
 
 app.Run();
+

@@ -20,7 +20,7 @@ public class DbContext
         _connection = new MySqlConnection(connectionString);
     }
 
-    public ICollection<T> GetData<T>(string query, params object[] values)
+    public ICollection<T> GetData<T>(string query, params object?[] values)
     {
         _connection.Open();
         try
@@ -84,7 +84,7 @@ public class DbContext
         }
     }
     
-    public int Add(object value)
+    public int Add(object? value)
     {
         // Get all properties of the object
         var props = value.GetType().GetProperties();
@@ -123,11 +123,13 @@ public class DbContext
         return ExecuteNonQuery(query, values); 
     }
 
-    public int Update(object value)
+    public int Update(object? value, int id)
     {
         var props = value.GetType().GetProperties();
-
-        var colNames = props.Select(p => $"{p.Name}=?");
+        
+        var colNames = string.Join(", ", props
+            .Where(p => p.GetValue(value) != null && p.GetValue(value)?.ToString() != "")
+            .Select(p => $"{p.Name} = ?"));
         var query = $"UPDATE TaiKhoan SET {string.Join(", ", colNames)} WHERE Id = ?";
         Console.WriteLine(query);
         
@@ -138,22 +140,36 @@ public class DbContext
                 return ((DateTime?)p.GetValue(value))?.ToString("yyyy-MM-dd");
             }
             return p.GetValue(value);
-        }).ToArray();
+        }).Append(id).ToArray();
+
+        Console.WriteLine(string.Join("\n", values));
+        // return 0;
         
-        foreach (var i in values)
+        _connection.Open();
+        try
         {
-            Console.WriteLine(i);
+            _transaction = _connection.BeginTransaction();
         }
-        return 0;
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        finally
+        {
+            _connection.Close();
+        }
+        
+        // Execute the query
+        return ExecuteNonQuery(query, values); 
     }
 
-    public int SaveChange()
+    public bool SaveChange()
     {
         _connection.Open();
         try
         {
             _transaction?.Commit();
-            return 1;
+            return true;
         }
         catch (Exception e)
         {
