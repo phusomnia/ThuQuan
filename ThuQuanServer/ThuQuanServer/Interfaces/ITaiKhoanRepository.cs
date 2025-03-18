@@ -5,8 +5,8 @@ namespace ThuQuanServer.Interfaces;
 
 public interface ITaiKhoanRepository
 {
-    public ICollection<TaiKhoan> GetTaiKhoan();
-    public ICollection<TaiKhoan> GetTaiKhoanByProps(object? values);
-    public bool InsertTaiKhoan(TaiKhoanRequestDto taikhoan);
-    public bool UpdateTaiKhoan(TaiKhoanRequestDto taikhoan, int id);
+    public ICollection<TaiKhoan> GetAccount();
+    public ICollection<TaiKhoan> GetAccountByProps(object? values);
+    public bool RegisterAccount(TaiKhoanRequestDto taikhoan);
+    public bool UpdateAccount(TaiKhoanRequestDto taikhoan, int id);
 }

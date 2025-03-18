@@ -1,0 +1,55 @@
+@use "../abstracts";
+
+html {
+   --color: #fff;
+   --text-color: #1a162e;
+   --icon-color: brightness(0) saturate(100%) invert(7%) sepia(16%)
+      saturate(3169%) hue-rotate(216deg) brightness(96%) contrast(95%);
+
+   --body-bg: #f6f6f6;
+
+   // Header
+   --header-bg-color: #eee;
+   --text-hover-header-color: #1ebfc1;
+   --after-hover-color: #1ebfc1;
+   --top-act-group-bg-color: #fff;
+   --top-act-group-shadow: rgba(237, 237, 246, 0.2);
+   --top-act-group-separate: #ededf6;
+   --placeholder-color: #b1b8bf;
+
+   // Category
+   --cate-item-bg: #eee;
+   --cate-item-thumb-bg: #fff;
+   --cate-item-title-color: #000;
+
+   @include abstracts.screen(md) {
+      --cate-item-bg: #fff;
+   }
+
+   // home-heading-name
+   --text-name-color: #1ebfc1;
+
+   // Buttons
+   --filter-btn-color: #6c6c72;
+   --filter-btn-bg: #fff;
+   --like-btn-shadow: rgba(124, 124, 124, 0.2);
+
+   // Book
+   --book-card-bg: #fff;
+   --book-card-shadow: rgba(237, 237, 246, 0.2);
+
+   // Footer
+   --footer-bg-color: #eee;
+   --footer-text-color: #6e6d74;
+
+   // auth
+   --auth-content-bg: #fff;
+   --auth-intro-text-color: #9e9da8;
+   --auth-heading-color: #1a162e;
+   --auth-intro-text-color: #1a162e;
+   --auth-content-label-color: #1a162e;
+   --auth-form-icon-color:000;
+   --auth-content-input-bg:#fff;
+   --auth-content-text-placeholder-color: #d2d1d6;
+   
+}
