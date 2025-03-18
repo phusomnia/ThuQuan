@@ -14,14 +14,14 @@ public class TaiKhoanRepository : ITaiKhoanRepository
         _dbContext = dbContext;
     }
     
-    public ICollection<TaiKhoan> GetTaiKhoan()
+    public ICollection<TaiKhoan> GetAccount()
     {
         string query = "SELECT * FROM TaiKhoan";
         var taiKhoan = _dbContext.GetData<TaiKhoan>(query);
         return taiKhoan;
     }
 
-    public ICollection<TaiKhoan> GetTaiKhoanByProps(object? values)
+    public ICollection<TaiKhoan> GetAccountByProps(object? values)
     {
         var p = values.GetType().GetProperties();
         
@@ -42,13 +42,13 @@ public class TaiKhoanRepository : ITaiKhoanRepository
         return nhanvien;
     }
     
-    public bool InsertTaiKhoan(TaiKhoanRequestDto taikhoan)
+    public bool RegisterAccount(TaiKhoanRequestDto taikhoan)
     {
         _dbContext.Add(taikhoan);
         return _dbContext.SaveChange();
     }
 
-    public bool UpdateTaiKhoan(TaiKhoanRequestDto taikhoan, int id)
+    public bool UpdateAccount(TaiKhoanRequestDto taikhoan, int id)
     {
         _dbContext.Update(taikhoan, id);
         return _dbContext.SaveChange();

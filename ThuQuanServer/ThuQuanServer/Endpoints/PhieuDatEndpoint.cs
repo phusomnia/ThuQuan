@@ -1,23 +1,6 @@
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Crypto.Generators;
-using ThuQuanServer.ApplicationContext;
-using ThuQuanServer.Dtos;
-using ThuQuanServer.Dtos.Request;
-using ThuQuanServer.Interfaces;
-using ThuQuanServer.Models;
-using ThuQuanServer.Services;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using System.Text.Json;
-using Microsoft.OpenApi.Models;
-
 namespace ThuQuanServer.Endpoints;
 
-public static class TaiKhoanEndpoints
+public static class PhieuDatEndpoint
 {
     public static IEndpointRouteBuilder MapTaiKhoanEndpoints(this IEndpointRouteBuilder app)
     {   
