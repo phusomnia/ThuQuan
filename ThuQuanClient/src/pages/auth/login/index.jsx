@@ -126,8 +126,8 @@ export default function Register() {
                      đó.
                   </p>
                   <Form
-                     // onFinish={onFinish}
                      // form={form}
+                     // onFinish={onFinish}
                      layout="vertical"
                      name="basic"
                      autoComplete="off"
