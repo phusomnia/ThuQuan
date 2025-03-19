@@ -43,13 +43,16 @@ html {
    --footer-text-color: #6e6d74;
 
    // auth
+   --auth-bg-color: #fafafd;
+   @include abstracts.screen(md) {
+      --auth-bg-color: #fff;
+   }
    --auth-content-bg: #fff;
    --auth-intro-text-color: #9e9da8;
    --auth-heading-color: #1a162e;
    --auth-intro-text-color: #1a162e;
    --auth-content-label-color: #1a162e;
-   --auth-form-icon-color:000;
-   --auth-content-input-bg:#fff;
+   --auth-form-icon-color: 000;
+   --auth-content-input-bg: #fff;
    --auth-content-text-placeholder-color: #d2d1d6;
-   
 }
