@@ -71,8 +71,9 @@ public class DbContext
             {
                 throw new ArgumentException("The number of parameters does not match the number of placeholders in the query.");
             }
-
-            return cmd.ExecuteNonQuery();
+            
+            var result = cmd.ExecuteNonQuery();
+            return result;
         }
         catch (Exception e)
         {
@@ -84,15 +85,16 @@ public class DbContext
         }
     }
     
-    public int Add(object? value)
+    public int Add<T>(object? value)
     {
         // Get all properties of the object
         var props = value.GetType().GetProperties();
     
         // Get all column names and placeholders
+        var tableName = typeof(T).Name;
         var colNames = string.Join(", ", props.Select(p => p.Name));
         var placeholders = string.Join(", ", props.Select(_ => "?"));
-        string query = $"INSERT INTO ThuQuan.TaiKhoan ({colNames}) VALUES ({placeholders})";
+        string query = $"INSERT INTO {tableName} ({colNames}) VALUES ({placeholders})";
         Console.WriteLine(query);
     
         // Get all values of the object
@@ -105,9 +107,13 @@ public class DbContext
             return p.GetValue(value);
         }).ToArray();
         
+        // test
+        // return 1;
+        
         _connection.Open();
         try
         {
+            // Begin the transaction
             _transaction = _connection.BeginTransaction();
         }
         catch (Exception e)
@@ -120,17 +126,21 @@ public class DbContext
         }
         
         // Execute the query
-        return ExecuteNonQuery(query, values); 
+        var result = ExecuteNonQuery(query, values);
+        return result;
     }
 
-    public int Update(object? value, int id)
+    public int Update<T>(object? value, int id)
     {
+        var tableName = typeof(T).Name;
+        
         var props = value.GetType().GetProperties();
         
         var colNames = string.Join(", ", props
             .Where(p => p.GetValue(value) != null && p.GetValue(value)?.ToString() != "")
             .Select(p => $"{p.Name} = ?"));
-        var query = $"UPDATE TaiKhoan SET {string.Join(", ", colNames)} WHERE Id = ?";
+        
+        var query = $"UPDATE {tableName} SET {string.Join(", ", colNames)} WHERE Id = ?";
         Console.WriteLine(query);
         
         object?[] values = props.Select(p =>
@@ -182,6 +192,25 @@ public class DbContext
         }
     }
 
+    public int GetLastInsertId()
+    {
+        _connection.Open();
+        try
+        {
+            var cmd = new MySqlCommand("SELECT LAST_INSERT_ID()", _connection);
+            return Convert.ToInt32(cmd.ExecuteScalar());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        finally
+        {
+            _connection.Close();
+        }
+    }
+
     private static T MapRowToType<T>(DataRow row)
     {
         // Create an instance of the object
@@ -191,8 +220,11 @@ public class DbContext
         var properties = typeof(T).GetProperties();
         foreach (var property in properties)
         {
-            var value = Convert.ChangeType(row[property.Name], property.PropertyType);
-            property.SetValue(obj, value);
+            if (row[property.Name] != DBNull.Value)
+            {
+                var value = Convert.ChangeType(row[property.Name], property.PropertyType);
+                property.SetValue(obj, value);   
+            }
         }
         return obj;
     }

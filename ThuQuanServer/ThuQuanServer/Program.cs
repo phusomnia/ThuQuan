@@ -34,10 +34,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-app.UseValidationMiddleware();
+
+// Check validation
+// app.UseValidationMiddleware();
 
 // Endpoints
 app.MapTaiKhoanEndpoints();
+app.MapPhieuDatEndpoints();
 
 app.Run();
 

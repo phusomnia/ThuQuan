@@ -3,24 +3,24 @@ using ThuQuanServer.Models;
 
 namespace ThuQuanServer.Repository;
 
-public class PhieuMuonRepository : IPhieuMuonRepository
+public class LoaiVatDungRepository : IVatDungRepository
 {
-    public ICollection<PhieuMuon> GetPhieuMuon()
+    public ICollection<VatDung> GetVatDung()
     {
         throw new NotImplementedException();
     }
 
-    public ICollection<PhieuMuon> GetPhieuMuonByProps(object? values)
+    public ICollection<VatDung> GetVatDungByProps(object? values)
     {
         throw new NotImplementedException();
     }
 
-    public bool AddPhieuMuon()
+    public bool AddVatDung()
     {
         throw new NotImplementedException();
     }
 
-    public bool UpdatePhieuMuon()
+    public bool UpdateVatDung()
     {
         throw new NotImplementedException();
     }

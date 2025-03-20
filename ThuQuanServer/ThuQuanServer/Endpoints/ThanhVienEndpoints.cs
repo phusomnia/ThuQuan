@@ -17,14 +17,15 @@ using Microsoft.OpenApi.Models;
 
 namespace ThuQuanServer.Endpoints;
 
-public static class TaiKhoanEndpoints
+public static class ThanhVienEndpoints
 {
-    public static IEndpointRouteBuilder MapTaiKhoanEndpoints(this IEndpointRouteBuilder app)
+    public static void MapTaiKhoanEndpoints(this IEndpointRouteBuilder app)
     {   
+        var dbContext = app.ServiceProvider.GetRequiredService<DbContext>();
         var taiKhoanRepository = app.ServiceProvider.GetRequiredService<ITaiKhoanRepository>();
         var passwordHashService = app.ServiceProvider.GetRequiredService<IPasswordHashService>();
         
-        var groupName = "TaiKhoan";
+        var groupName = "Thanh Vien";
         
         // GET API
         app.MapGet("/GetTaiKhoan", (DbContext dbContext) =>
@@ -35,7 +36,6 @@ public static class TaiKhoanEndpoints
         
         app.MapGet("/GetTaiKhoanById/{id}", ([FromRoute , Required] int? id) =>
         {
-            // if (string.IsNullOrEmpty(request)) return RequireMessage(vaiTro);
             var taikhoan = taiKhoanRepository.GetAccountByProps(new {
                 Id = id,
             });
@@ -52,44 +52,43 @@ public static class TaiKhoanEndpoints
         }).WithTags(groupName);
 
         // POST API
-        app.MapPost("/InsertTaiKhoan", (
-            [FromBody] TaiKhoanRequestDto nhanVienRequest) =>
+        app.MapPost("/InsertThanhVien", (
+            [FromBody] TaiKhoanRequestDto thanhVienRequest) =>
         {
             // Check existed username
             var existedUserName = taiKhoanRepository.GetAccount()
-                .Where(p => p.UserName == nhanVienRequest.UserName);
+                .Where(p => p.UserName == thanhVienRequest.UserName);
             
             if (existedUserName.Any())
             {
-                return Results.BadRequest("Username is already exist");
+                return Results.BadRequest("Ten tai khoan da ton tai");
             }
             
             // Check existed email
             var existedEmail = taiKhoanRepository.GetAccount()
-                .Where(p => p.Email == nhanVienRequest.Email);
+                .Where(p => p.Email == thanhVienRequest.Email);
             
             if (existedEmail.Any())
             {
                 return Results.BadRequest("Email is already exist");
             }
-
-            // Hash password
-            nhanVienRequest.Password = passwordHashService.HashPassword(nhanVienRequest.Password);
-
-            // Time
-            nhanVienRequest.NgayThamGia = (DateTime.Now);
-            Console.WriteLine(nhanVienRequest.NgayThamGia);
             
-            if (!taiKhoanRepository.RegisterAccount(nhanVienRequest))
+            // Hash password
+            thanhVienRequest.Password = passwordHashService.HashPassword(thanhVienRequest.Password);
+            
+            // Time
+            thanhVienRequest.NgayThamGia = (DateTime.Now);
+            
+            if (!taiKhoanRepository.AddThanhVien(thanhVienRequest))
             {
                 return Results.BadRequest("Insert TaiKhoan failed");
             }
-
+            
             return Results.Ok(new ApiResponse
             {
                 Success = true,
-                Message = "Insert TaiKhoan successully",
-                Data = nhanVienRequest
+                Message = $"Insert thanh vien successully",
+                Data = thanhVienRequest
             });
         }).WithMetadata(typeof(TaiKhoanRequestDto)).WithOpenApi(o =>
         {
@@ -98,18 +97,25 @@ public static class TaiKhoanEndpoints
         }).WithTags(groupName);
         
         // PUT API
-        app.MapPut("/UpdateTaiKhoan/{id}", (
-            [Required] int id,
-            [FromBody] TaiKhoanRequestDto nhanVienRequest) =>
+        app.MapPut("/UpdateThanhVien", (
+            [FromQuery] int id,
+            [FromBody] ThanhVienRequestDto thanhVienRequest) =>
         {
-            // taiKhoanRepository.UpdateTaiKhoan(nhanVienRequest, id);
-            return Results.Ok();
+            if (!taiKhoanRepository.UpdateThanhVien(thanhVienRequest, id))
+            {
+                return Results.BadRequest("update ThanhVien failed");
+            }
+            
+            return Results.Ok(new ApiResponse
+            {
+                Success = true,
+                Message = $"update thanh vien {id} successully",
+                Data = thanhVienRequest
+            });
         }).WithMetadata(typeof(TaiKhoanRequestDto)).WithOpenApi(o =>
         {
             o.Security = new List<OpenApiSecurityRequirement>();
             return o;
         }).WithTags(groupName);
-
-        return app;
     }
 }

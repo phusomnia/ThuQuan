@@ -3,24 +3,24 @@ using ThuQuanServer.Models;
 
 namespace ThuQuanServer.Repository;
 
-public class PhieuMuonRepository : IPhieuMuonRepository
+public class PhieuTraRepository : IPhieuTraRepository
 {
-    public ICollection<PhieuMuon> GetPhieuMuon()
+    public ICollection<PhieuTra> GetPhieuTra()
     {
         throw new NotImplementedException();
     }
 
-    public ICollection<PhieuMuon> GetPhieuMuonByProps(object? values)
+    public ICollection<PhieuTra> GetPhieuTraByProps(object? values)
     {
         throw new NotImplementedException();
     }
 
-    public bool AddPhieuMuon()
+    public bool AddPhieuTra()
     {
         throw new NotImplementedException();
     }
 
-    public bool UpdatePhieuMuon()
+    public bool UpdatePhieuTra()
     {
         throw new NotImplementedException();
     }
