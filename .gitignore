@@ -26,3 +26,5 @@ dist-ssr
 #
 ThuQuanServer/ThuQuanServer/obj/*
 ThuQuanServer/ThuQuanServer/bin/*
+ThuQuanServer/ThuQuanServer/appsettings.json
+
