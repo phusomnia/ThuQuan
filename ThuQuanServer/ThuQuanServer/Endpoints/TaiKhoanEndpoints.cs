@@ -17,7 +17,7 @@ using Microsoft.OpenApi.Models;
 
 namespace ThuQuanServer.Endpoints;
 
-public static class ThanhVienEndpoints
+public static class TaiKhoanEndpoints
 {
     public static void MapTaiKhoanEndpoints(this IEndpointRouteBuilder app)
     {   
@@ -52,7 +52,7 @@ public static class ThanhVienEndpoints
         }).WithTags(groupName);
 
         // POST API
-        app.MapPost("/InsertThanhVien", (
+        app.MapPost("/InsertTaiKhoan", (
             [FromBody] TaiKhoanRequestDto thanhVienRequest) =>
         {
             // Check existed username

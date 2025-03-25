@@ -41,6 +41,9 @@ app.UseAuthorization();
 // Endpoints
 app.MapTaiKhoanEndpoints();
 app.MapPhieuDatEndpoints();
+app.MapPhieuMuonEndpoints();
+app.MapPhieuTraEndpoints();
+app.MapVatDungEndpoints();
 
 app.Run();
 
