@@ -6,6 +6,7 @@ using ThuQuanServer.Interfaces;
 using ThuQuanServer.Models;
 using ThuQuanServer.Repository;
 using ThuQuanServer.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,10 +35,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-app.UseValidationMiddleware();
+
+// Check validation
+// app.UseValidationMiddleware();
 
 // Endpoints
 app.MapTaiKhoanEndpoints();
+app.MapPhieuDatEndpoints();
+app.MapPhieuMuonEndpoints();
+app.MapPhieuTraEndpoints();
+app.MapVatDungEndpoints();
 
 app.Run();
 

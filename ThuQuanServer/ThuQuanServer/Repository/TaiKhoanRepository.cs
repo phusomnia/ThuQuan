@@ -42,15 +42,35 @@ public class TaiKhoanRepository : ITaiKhoanRepository
         return nhanvien;
     }
     
-    public bool RegisterAccount(TaiKhoanRequestDto taikhoan)
+    public bool AddThanhVien(TaiKhoanRequestDto taikhoan)
     {
-        _dbContext.Add(taikhoan);
+        // Add TaiKhoan
+        _dbContext.Add<TaiKhoan>(taikhoan);
+        var lastInsertId = _dbContext.GetLastInsertId();
+        Console.WriteLine(lastInsertId);
+        
+        // Create new ThanhVien
+        ThanhVienRequestDto thanhvien = new ThanhVienRequestDto();
+        thanhvien.IdTaiKhoan = lastInsertId;
+        _dbContext.Add<ThanhVien>(thanhvien);
+        
+        // Save changes
         return _dbContext.SaveChange();
     }
 
-    public bool UpdateAccount(TaiKhoanRequestDto taikhoan, int id)
+    public bool UpdateThanhVien(ThanhVienRequestDto thanhvien, int idTaiKhoan)
     {
-        _dbContext.Update(taikhoan, id);
+        // query find ThanhVien where IdTaiKhoan
+        var query = "SELECT * FROM ThanhVien WHERE IdTaiKhoan = ?";
+        // Take first element from list
+        var idThanhVien = _dbContext.GetData<ThanhVien>(query, idTaiKhoan).First().Id;
+        // Assign id to thanhvien
+        thanhvien.IdTaiKhoan = idTaiKhoan;
+        
+        // Update thanhvien
+        _dbContext.Update<ThanhVien>(thanhvien, idThanhVien);
+        
+        // Save 
         return _dbContext.SaveChange();
     }
 }

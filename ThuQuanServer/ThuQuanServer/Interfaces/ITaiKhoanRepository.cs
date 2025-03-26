@@ -7,6 +7,6 @@ public interface ITaiKhoanRepository
 {
     public ICollection<TaiKhoan> GetAccount();
     public ICollection<TaiKhoan> GetAccountByProps(object? values);
-    public bool RegisterAccount(TaiKhoanRequestDto taikhoan);
-    public bool UpdateAccount(TaiKhoanRequestDto taikhoan, int id);
+    public bool AddThanhVien(TaiKhoanRequestDto taikhoan);
+    public bool UpdateThanhVien(ThanhVienRequestDto taikhoan, int idTaiKhoan);
 }

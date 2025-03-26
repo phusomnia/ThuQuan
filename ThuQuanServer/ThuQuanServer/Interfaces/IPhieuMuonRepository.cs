@@ -4,8 +4,8 @@ namespace ThuQuanServer.Interfaces;
 
 public interface IPhieuMuonRepository
 {
-    public ICollection<PhieuDat> GetPhieuDat();
-    public ICollection<PhieuDat> GetPhieuDatByProps(object? values);
-    public bool CreatePhieuDat();
-    public bool UpdatePhieuDat();
+    public ICollection<PhieuMuon> GetPhieuMuon();
+    public ICollection<PhieuMuon> GetPhieuMuonByProps(object? values);
+    public bool AddPhieuMuon();
+    public bool UpdatePhieuMuon();
 }

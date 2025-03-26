@@ -24,5 +24,9 @@ dist-ssr
 *.sw?
 
 #
-ThuQuanServer/obj/*
-ThuQuanServer/bin/*
+ThuQuanServer/ThuQuanServer/obj/*
+ThuQuanServer/ThuQuanServer/bin/*
+ThuQuanServer/ThuQuanServer/appsettings.json
+
+
+.qodo
