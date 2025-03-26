@@ -6,6 +6,7 @@ using ThuQuanServer.Interfaces;
 using ThuQuanServer.Models;
 using ThuQuanServer.Repository;
 using ThuQuanServer.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<DbContext>();
 builder.Services.AddSingleton<ITaiKhoanRepository , TaiKhoanRepository>();
 builder.Services.AddSingleton<IPasswordHashService , PasswordHashService>();
-
-builder.Services.AddAuthorization();
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
