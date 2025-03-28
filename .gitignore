@@ -22,11 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.qodo
 
 #
 ThuQuanServer/ThuQuanServer/obj/*
 ThuQuanServer/ThuQuanServer/bin/*
 ThuQuanServer/ThuQuanServer/appsettings.json
-
-
-.qodo
